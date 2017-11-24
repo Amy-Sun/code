@@ -1,0 +1,54 @@
+#读取十九大报告文本文件
+filename = "baogao.txt"
+with open(filename,'r',encoding='utf-8') as f:
+    mytext = f.read()
+
+#进行文本分割
+import jieba
+mytext=' '.join(jieba.cut(mytext))
+print(mytext)
+
+#若是英文则是如下代码
+from wordcloud import WordCloud
+wordcloud = WordCloud().generate(mytext)
+%pylab inline
+import matplotlib.pyplot as plt
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+
+#中文要用特定字体进行编译
+from wordcloud import WordCloud
+wordcloud = WordCloud(font_path="simsun.ttf").generate(mytext)
+'''在开头添加pylab的内嵌语句，pylab是 Matplotlib 和
+Ipython提供的一个模块，提供了类似Matlab的语法。'''
+%pylab inline
+import matplotlib.pyplot as plt
+'''双线性插值法(Bilinear interpolation)是利用待求象素反变换到原图像
+对应的浮点坐标，邻近的四个象素在两个方向上作线性内插。四邻近像素值的
+加权平均即为待测点像素值，计算权重反比于浮点在双线性方向上的映射距离。
+双线性插值是利用了需要处理的原始图像浮点坐标周围的四个像素点的相关性,
+通过双线性算法计算。'''
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+
+#生成以特定图片为背景的词云
+from wordcloud import WordCloud,ImageColorGenerator
+from scipy.misc import imread
+alice_coloring = imread(r'E:\python\program\ciyun\demo\tiananmen1.jpg')
+wordcloud = WordCloud(font_path="simsun.ttf",background_color="white",mask=alice_coloring).generate(mytext)
+%pylab inline
+import matplotlib.pyplot as plt
+plt.figure()
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+#显示原照片
+plt.figure()
+#plt.imshow(alice_coloring, cmap=plt.cm.gray)
+'''imshow()函数格式为：
+matplotlib.pyplot.imshow(X, cmap=None)
+X: 要绘制的图像或数组。
+cmap: 颜色图谱（colormap), 默认绘制为RGB(A)颜色空间。
+这里的gray	黑-白
+'''
+plt.axis("off")
+
